@@ -1,0 +1,21 @@
+POST http://localhost:7007/register
+Content-Type: application/json
+
+{
+    "user": {
+        "email": "test2@gmail.com",
+        "password": "password",
+        "first_name": "Will",
+        "last_name": "Smith",
+        "role": "MEMBER"
+    }
+}
+
+###
+POST http://localhost:7007/login
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "password"
+}

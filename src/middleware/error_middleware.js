@@ -105,7 +105,7 @@ const exportable = {
 
 // All exportables stored as an array (e.g., for including in Express app.use())
 const all = Object.keys(exportable).map((key) => exportable[key]);
-debug(all);
+// debug(all);
 
 module.exports = {
     ...exportable,
