@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "user": {
-        "email": "test2@gmail.com",
+        "email": "desmond95malik@gmail.com",
         "password": "password",
         "first_name": "Will",
         "last_name": "Smith",
@@ -16,6 +16,15 @@ POST http://localhost:7007/login
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com",
+    "email": "desmond95malik@gmail.com",
     "password": "password"
+}
+
+###
+POST http://localhost:7007/email_verification
+Content-Type: application/json
+
+{
+    "email": "desmond95malik@gmail.com",
+    "token": "05c613dafa6ab41cc0e4efd5eae29b75e14054b530bffeeedad2754720c3cb40"
 }

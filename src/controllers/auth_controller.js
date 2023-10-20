@@ -1,6 +1,9 @@
 /* eslint-disable consistent-return */
+// eslint-disable-next-line import/no-extraneous-dependencies, import/no-import-module-exports
+const crypto = require('crypto');
 const debug = require('debug')('order:authController');
-const { User } = require('../models');
+const { User, EmailVerification } = require('../models');
+const Email = require('../utils/email');
 const {
     createError,
     CONFLICT,
@@ -8,6 +11,13 @@ const {
     UNAUTHOROZED,
     NOT_FOUND,
 } = require('../helpers/error_helper');
+
+const confirmEmail = async (name, email) => {
+    const token = crypto.randomBytes(8).toString('hex');
+    debug(token);
+    EmailVerification.create({ token, email })
+        .then(() => Email.sendConfirmationMail(token, name, email));
+};
 
 const postRegister = async (req, res, next) => {
     const props = req.body.user;
@@ -22,6 +32,7 @@ const postRegister = async (req, res, next) => {
         }
         debug(props);
         user = await User.create(props);
+        await confirmEmail(`${props.first_name} ${props.last_name}`, props.email);
         res.json({
             ok: true,
             message: 'Registration Successful',
@@ -54,7 +65,28 @@ const postLogin = async (req, res, next) => {
             ok: true,
             message: 'Login successful',
             token: user.token,
+            email_verified: user.email_verification === 'VERIFIED',
         });
+    } catch (e) {
+        return next(createError({
+            status: UNAUTHOROZED,
+            message: e,
+        }));
+    }
+};
+
+const verifyEmail = async (req, res, next) => {
+    const { email, token } = req.body;
+
+    try {
+        const verified = await EmailVerification.verifyEmail(email, token);
+        if (!verified) {
+            return next(createError({
+                status: NOT_FOUND,
+                message: 'User not found',
+            }));
+        }
+        return res.json(verified);
     } catch (e) {
         return next(createError({
             status: UNAUTHOROZED,
@@ -66,4 +98,5 @@ const postLogin = async (req, res, next) => {
 module.exports = {
     postRegister,
     postLogin,
+    verifyEmail,
 };

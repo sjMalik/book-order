@@ -5,7 +5,7 @@ const createModelHelper = require('../helpers/model_helper');
 const bcrypt = require('bcrypt');
 const debug = require('debug')('order:userModel');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET, JWT_TTL } = require('../../config');
+const { JWT_SECRET, JWT_TTL, SALT_ROUND } = require('../../config');
 
 const name = 'User';
 const tableName = 'users';
@@ -22,8 +22,7 @@ const selectableProps = [
 ];
 
 // Bcrypt functions used for hashing password
-const SALT_ROUND = 10;
-const hashPassword = (password) => bcrypt.hash(password, SALT_ROUND);
+const hashPassword = (password) => bcrypt.hash(password, Number(SALT_ROUND));
 const verifyPassword = (password, hash) => bcrypt.compare(password, hash);
 
 // Always perform this logic before saving to db. This includes always hashing

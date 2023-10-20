@@ -14,4 +14,7 @@ module.exports = {
     DB_PASSWORD: process.env.DB_PASSWORD,
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_TTL: process.env.JWT_TTL,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    SENDGRID_NOREPLY_EMAIL: process.env.SENDGRID_NOREPLY_EMAIL,
+    SALT_ROUND: process.env.SALT_ROUND,
 };
