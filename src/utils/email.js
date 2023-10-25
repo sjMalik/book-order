@@ -5,6 +5,7 @@ const debug = require('debug')('order:email');
 
 const { SENDGRID_API_KEY, SENDGRID_NOREPLY_EMAIL } = require('../../config');
 
+// Set your SendGrid API key
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 const email = `Hello {userName},<br/><br/>
@@ -27,6 +28,7 @@ Welcome To Online Book Order App. Please use the token below to confirm your ema
 exports.sendConfirmationMail = (token, userName, userEmail) => {
     debug(userEmail);
     debug(SENDGRID_NOREPLY_EMAIL);
+    // Create the email message
     const msg = {
         to: userEmail,
         from: SENDGRID_NOREPLY_EMAIL,
@@ -36,5 +38,6 @@ exports.sendConfirmationMail = (token, userName, userEmail) => {
             token,
         }),
     };
+    // Send the email
     return sgMail.send(msg);
 };
