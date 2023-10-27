@@ -2,24 +2,21 @@
     <div class="row mt-5">
         <div class="col-md-10 m-auto">
             <div class="card card-body text-center">
-                <h1>Login</h1>
-                <form @submit.prevent="login()">
+                <h1>Email Verification</h1>
+                <small>Please Enter the token received in your registered email address</small>
+                <form @submit.prevent="verify()">
                     <div class="form-group">
-                        <label for="email" class="float-left">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"
-                            v-model="email" />
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="float-left">Password</label>
-                        <input type="password" id="password" name="password" class="form-control"
-                            placeholder="Enter Password" v-model="password" />
+                        <label for="token" class="float-left">Token</label>
+                        <input type="text" id="token" name="token" class="form-control" placeholder="Enter Token"
+                            v-model="token" />
                     </div>
                     <button type="submit" class="btn btn-success float-left">
                         Submit
                     </button>
                 </form>
-                <p class="lead mt-4">
-                    Go to Home? <a href="/">Home</a>
+                <p class="mt-4">
+                    <span class="float-right">Already verified? Go to <a href="/login">Login</a></span>
+                    <span class="float-left">Didn't receive the token? <a href="javascript:void(0)">Resend</a></span>
                 </p>
             </div>
         </div>
@@ -31,26 +28,29 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default {
-    name: 'UserLogin',
+    name: 'EmailVerification',
     data() {
         return {
+            token: null,
             email: null,
-            password: null
         };
     },
+    mounted() {
+        this.email = this.$route.query.email;
+    },
     methods: {
-        async login() {
+        async verify() {
             try {
-                await axios.post("http://localhost:7007/login", {
+                await axios.post("http://localhost:7007/email_verification", {
                     email: this.email,
-                    password: this.password
+                    token: this.token
                 });
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: 'Sucessfully logged in',
+                    text: 'Email Verified',
                 });
-                this.$router.push('/');
+                this.$router.push('/login');
             } catch (e) {
                 console.log(e)
                 Swal.fire({
