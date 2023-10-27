@@ -12,8 +12,15 @@
                     <div class="form-group">
                         <label for="email" class="float-left">Password</label>
                         <input type="password" id="password" name="password" class="form-control"
-                            placeholder="Enter Password" v-model="user.password" />
+                            placeholder="Enter Password" v-model="user.password" @input="validatePassword" />
                     </div>
+                    <div class="form-group">
+                        <label for="cnfpass" class="float-left">Confirm Password</label>
+                        <input type="password" id="cnfpass" name="cnfpass" class="form-control"
+                            placeholder="Enter Password again" v-model="confPassword" @input="validatePassword" />
+                    </div>
+                    <p class="text-success" v-if="user.password && confPassword && passwordMatch">Passwords match!</p>
+                    <p v-else-if="user.password && confPassword" class="text-danger">Passwords do not match.</p>
                     <div class="form-group">
                         <label for="fname" class="float-left">First Name</label>
                         <input type="text" id="fname" name="fname" class="form-control" placeholder="Enter First Name"
@@ -50,6 +57,8 @@ import Swal from 'sweetalert2';
 export default {
     data() {
         return {
+            confPassword: null,
+            passwordMatch: false,
             user: {
                 email: null,
                 password: null,
@@ -61,22 +70,33 @@ export default {
         }
     },
     methods: {
+        validatePassword() {
+            this.passwordMatch = this.user.password === this.confPassword;
+        },
         async register() {
-            try {
-                await axios.post("http://localhost:7007/register", {
-                    user: this.user
-                });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Sucessfully Registered. Now please check your mailbox for token to validate your email address',
-                });
-                this.$router.push(`/verify-email?email=${this.user.email}`);
-            } catch (e) {
+            if (this.passwordMatch) {
+                try {
+                    await axios.post("http://localhost:7007/register", {
+                        user: this.user
+                    });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Sucessfully Registered. Now please check your mailbox for token to validate your email address',
+                    });
+                    this.$router.push(`/verify-email?email=${this.user.email}`);
+                } catch (e) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: e.response.data.message,
+                    });
+                }
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    text: e.response.data.message,
+                    text: 'Passwords do not match',
                 });
             }
         }
