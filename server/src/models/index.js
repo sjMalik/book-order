@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const knex = require('../../database/connection');
+// eslint-disable-next-line import/order
 const debug = require('debug')('order:indexModel');
 
 const getModelFiles = (dir) => fs.readdirSync(dir)
@@ -13,7 +14,7 @@ const getModelFiles = (dir) => fs.readdirSync(dir)
 // `const { MyModel } = require('./models')` where there is a model named
 // `MyModel` present in the exported object of gathered models.
 const files = getModelFiles(__dirname);
-// debug(files);
+debug(files);
 
 const models = files.reduce((modelsObj, filename) => {
     // eslint-disable-next-line import/no-dynamic-require, global-require

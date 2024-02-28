@@ -29,6 +29,10 @@ module.exports = ({
             .timeout(timeout);
     };
 
+    const all = () => knex.select(selectableProps)
+        .from(tableName)
+        .timeout(timeout);
+
     const find = (filters) => knex.select(selectableProps)
         .from(tableName)
         .where(filters)
@@ -43,6 +47,7 @@ module.exports = ({
 
     return {
         create,
+        all,
         find,
         findOne,
     };

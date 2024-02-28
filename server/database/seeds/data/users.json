@@ -1,9 +1,18 @@
 [
     {
         "email": "admin@gmail.com",
-        "password": "$2a$08$m96/j8fUCKONVCdLa2iXSuPaNHkX4GijDhK9P52l87F5BqFHKwzme",
+        "password": "$2b$10$VkJOFzg1FoFOJc6g0EmQL.lihxgjki097Jz7pKr06hNYJgFV.IVpu",
         "first_name": "John",
         "last_name": "Doe",
-        "role": "ADMIN"
+        "role": "ADMIN",
+        "email_verification": "VERIFIED"
+    },  
+    {
+        "email": "user@gmail.com",
+        "password": "$2b$10$VkJOFzg1FoFOJc6g0EmQL.lihxgjki097Jz7pKr06hNYJgFV.IVpu",
+        "first_name": "John",
+        "last_name": "Doe",
+        "role": "ADMIN",
+        "email_verification": "VERIFIED"
     }
 ]

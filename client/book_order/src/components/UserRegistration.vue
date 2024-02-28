@@ -63,7 +63,7 @@ export default {
     methods: {
         async register() {
             try {
-                await axios.post("http://localhost:7007/register", {
+                await axios.post("http://localhost:7007/auth/register", {
                     user: this.user
                 });
                 Swal.fire({
