@@ -6,7 +6,8 @@
   "scripts": {
     "start": "SET DEBUG=order:* & SET NODE_ENV=production & node index.js",
     "dev": "SET DEBUG=order:* & SET NODE_ENV=development & nodemon index.js",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "debug": "SET NODE_ENV=development & node --nolazy --inspect-brk=5858 index.js"
   },
   "keywords": [],
   "author": "",

@@ -2,7 +2,7 @@
     <div class="row mt-5">
         <div class="col-md-10 m-auto">
             <div class="card card-body text-center">
-                <h1>Login</h1>
+                <h1>Registration</h1>
                 <form @submit.prevent="register()">
                     <div class="form-group">
                         <label for="email" class="float-left">Email</label>

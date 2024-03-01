@@ -29,9 +29,56 @@ module.exports = ({
             .timeout(timeout);
     };
 
+    const update = (id, props) => knex(tableName)
+        .where({ id })
+        .update(props)
+        .timeout(timeout);
+
     const all = () => knex.select(selectableProps)
         .from(tableName)
         .timeout(timeout);
+
+    const getAllItemsFiltered = async (filters = {}, page = 1, limit = 10) => {
+        try {
+            const query = knex.select(selectableProps).from(tableName);
+
+            // Apply filters
+            Object.keys(filters).forEach((key) => {
+                const value = filters[key];
+                debug(value)
+                if (value !== undefined) {
+                    // Handle different operators for filtering
+                    if (typeof value === 'object' && value !== null) {
+                        const { like, min, max } = value;
+                        if (like !== undefined) {
+                            query.where(key, 'like', `%${like}%`);
+                        } else if (min !== undefined) {
+                            query.where(key, '>=', min);
+                        } else if (max !== undefined) {
+                            query.where(key, '<=', max);
+                        }
+                    } else {
+                        query.where(key, value);
+                    }
+                }
+            });
+
+            // Count total items
+            const countQuery = knex(tableName).count('* as total');
+            const [{ total }] = await countQuery;
+
+            // Paginate results
+            query.offset((page - 1) * limit).limit(limit);
+
+            // Execute query
+            const items = await query;
+
+            return { total, items };
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error fetching items');
+        }
+    };
 
     const find = (filters) => knex.select(selectableProps)
         .from(tableName)
@@ -47,7 +94,9 @@ module.exports = ({
 
     return {
         create,
+        update,
         all,
+        getAllItemsFiltered,
         find,
         findOne,
     };

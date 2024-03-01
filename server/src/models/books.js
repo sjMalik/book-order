@@ -27,11 +27,17 @@ module.exports = (knex) => {
 
     const getById = (bookid) => bookHelper.findOne({ id: bookid });
 
+    const update = (id, book) => bookHelper.update(id, book);
+
+    const getAllBooksFiltered = (filters, page, limit) => bookHelper.getAllItemsFiltered(filters, page, limit);
+
     return {
         name,
         ...bookHelper,
         create,
+        update,
         listing,
+        getAllBooksFiltered,
         getById,
     };
 };
