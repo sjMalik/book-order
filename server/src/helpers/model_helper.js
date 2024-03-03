@@ -29,6 +29,11 @@ module.exports = ({
             .timeout(timeout);
     };
 
+    const update = (id, props) => knex(tableName)
+        .update(props)
+        .where({ id })
+        .timeout(timeout);
+
     const find = (filters) => knex.select(selectableProps)
         .from(tableName)
         .where(filters)
@@ -41,9 +46,53 @@ module.exports = ({
             return results[0];
         });
 
+    const getAllItemsFiltered = async (filters = {}, page = 1, limit = 10) => {
+        try {
+            const query = knex.select(selectableProps).from(tableName);
+
+            // Apply filters
+            Object.keys(filters).forEach((key) => {
+                const value = filters[key];
+                if (value !== undefined) {
+                    // Handle different operators with filter
+                    if (typeof value === 'object' && value !== null) {
+                        const { like, min, max } = value;
+                        if (like !== undefined) {
+                            query.where(key, 'like', `%${like}%`);
+                        }
+                        if (min !== undefined) {
+                            query.where(key, '>=', min);
+                        }
+                        if (max !== undefined) {
+                            query.where(key, '>=', max);
+                        }
+                    } else {
+                        query.where(key, value);
+                    }
+                }
+            });
+
+            // Count total items
+            const totalCountQuery = knex(tableName).count('* as total');
+            const [{ total }] = await totalCountQuery;
+
+            // Paginated query
+            query.offset((page - 1) * limit).limit(limit);
+
+            // Execute the query
+            const items = await query;
+            return { total, items };
+        } catch (e) {
+            debug(e);
+            throw new Error('Error fething the items');
+        }
+    };
+
     return {
         create,
+        update,
         find,
         findOne,
+        getAllItemsFiltered,
     };
 };

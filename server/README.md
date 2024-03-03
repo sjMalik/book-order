@@ -1,5 +1,5 @@
 ## Project Structure
-
+```
 my-node-project/
   ├── src/
   |   ├── models/

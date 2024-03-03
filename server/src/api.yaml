@@ -1,0 +1,256 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: Online Book Order APIs with Authentication & Authorization
+  description: Online Book Order APIs with Authentication & Authorization
+
+servers:
+  - url: http://localhost:7007
+
+paths:
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Registration
+      description: "Create account in application"
+      requestBody:
+        description: 'Payload for registration'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration_Payload'
+      responses:
+        200:
+          description: 'Regitration Successfull'
+        201:
+          description: 'User Created'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login
+      description: "User Authentication"
+      requestBody:
+        description: 'Payload for login'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login_Payload'
+      responses:
+        200:
+          description: 'Login Successfull'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+
+  /auth/email_verification:
+    post:
+      tags:
+      - Todo
+      summary: Email Verification
+      description: "Verify your email address by providing token"
+      requestBody:
+        description: 'Payload for Email Verification'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email_Verification'
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Email Verification Successfull'
+        400:
+          description: 'Bad Request'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+
+  /books: 
+    post:
+      tags: 
+      - Books
+      summary: Adding Book for Sale 
+      description: "Add Book by Admin"
+      requestBody:
+        description: 'Payload for Add Book'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Add_Book_Payload'
+      responses:
+        200:
+          description: 'Regitration Successfull'
+        201:
+          description: 'User Created'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+    get:
+      tags:
+      - Books
+      summary: Get Books List
+      description: "Authorized user can listing Books"
+      parameters:
+        - name: limit
+          in: query
+          description: Limit the number of results
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: page
+          in: query
+          description: Offset the results by a certain number
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: title
+          in: query
+          description: Title of the book
+          required: false
+          schema:
+            type: string
+        - name: author
+          in: query
+          description: Author of the book
+          required: false
+          schema:
+            type: string
+        - name: maxPrice
+          in: query
+          description: maxPrice of the book
+          required: false
+          schema:
+            type: integer
+        - name: minPrice
+          in: query
+          description: minPrice of the book
+          required: false
+          schema:
+            type: integer
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Fetch Book List Successfull'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+
+  /books/{id}:
+    put:
+      tags:
+      - Books
+      summary: Updating Book for Sale
+      description: "Update Book by Admin"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      requestBody:
+        description: 'Payload for Update Book'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Add_Book_Payload'
+      responses:
+        200:
+          description: 'Updating Book Successfull'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Registration_Payload:
+      title: Registration_Payload
+      type: object
+      properties:
+       user:
+        $ref: '#/components/schemas/User_Paylod'
+
+    User_Paylod:
+      title: User_Payload
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'john@doe.com'
+        password:
+          type: string
+          example: 'secret'
+        first_name:
+          type: string,
+          example: 'John'
+        last_name:
+          type: string,
+          example: 'Doe'
+        role:
+          type: string,
+          example: 'ADMIN'
+      
+    Login_Payload:
+      title: Login_Payload
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'admin@gmail.com'
+        password:
+          type: string
+          example: 'password'
+
+    Email_Verification:
+      title: Email_Verification
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'admin@gmail.com'
+        token:
+          type: string
+          example: 'c232fbf713804193'
+
+    Add_Book_Payload:
+      title: Add_Book_Payload
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Sherlock Holmes'
+        author:
+          type: string
+          example: 'Arthur Conan Doyle'
+        price:
+          type: number,
+          example: 12345
+        quantity_available:
+          type: number,
+          example: 100
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Auth
+    description: Authentication APIs

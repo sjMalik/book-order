@@ -5,5 +5,12 @@
         "first_name": "John",
         "last_name": "Doe",
         "role": "ADMIN"
+    },
+    {
+        "email": "buyer@gmail.com",
+        "password": "$2a$08$m96/j8fUCKONVCdLa2iXSuPaNHkX4GijDhK9P52l87F5BqFHKwzme",
+        "first_name": "Surajit",
+        "last_name": "Malik",
+        "role": "MEMBER"
     }
 ]
