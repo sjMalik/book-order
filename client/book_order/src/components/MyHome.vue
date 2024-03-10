@@ -2,13 +2,13 @@
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-lg-4 col-xl-3 col-md-3">
-                <div data-v-25af5388="" class="card">
-                    <div data-v-25af5388="" class="border-bottom p-15">
-                        <h4 data-v-25af5388="">Filters </h4>
+                <div class="card">
+                    <div class="border-bottom p-15">
+                        <h4>Filters </h4>
                     </div>
-                    <div data-v-25af5388="" class="border-bottom p-15">
-                        <div data-v-25af5388="" class="card-body">
-                            <h5 data-v-25af5388="" class="card-title">Organization</h5>
+                    <div class="border-bottom p-15">
+                        <div class="card-body">
+                            <h5 class="card-title">Price of Books</h5>
                             <div class="price-bar-filter">
                                 <label for="minPrice">Min Price:</label>
                                 <input type="range" v-model="minPrice" id="minPrice" class="form-control-range"
@@ -23,8 +23,18 @@
                     </div>
                 </div>
             </div>
-            <div data-v-25af5388="" class="col-lg-8 col-xl-9 col-md-9">
-                <div class="row">
+            <div class="col-lg-8 col-xl-9 col-md-9">
+                <form class="d-flex">
+                    <input v-model="filters.title" class="form-control me-sm-2" type="search"
+                        placeholder="Search by Title">
+                    <input v-model="filters.author" class="form-control ml-2" type="search"
+                        placeholder="Search by Author">
+                    <a href=javascript:void(0) @click="getBooks()" class="btn btn-primary ml-2 my-sm-0"
+                        type="submit">Search</a>
+                    <a href=javascript:void(0) @click="resetSearch()" class="btn btn-secondary ml-1 my-sm-0"
+                        type="submit">Reset</a>
+                </form>
+                <div class="row mt-3">
                     <div class="col-md-3" v-for="(book, index) of books" :key="index">
                         <div class="ibox">
                             <div class="ibox-content product-box fixed-length">
@@ -57,6 +67,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'MyHome',
     data() {
@@ -74,21 +85,6 @@ export default {
             }
         }
     },
-    // watch: {
-    //     minPrice(newValue, oldValue) {
-    //         console.log(newValue, oldValue)
-    //         // if (newValue > this.maxPrice) {
-    //         //     this.minPrice = oldValue; // Reset to the old value
-    //         // }
-    //     },
-    //     maxPrice(newValue, oldValue) {
-    //         console.log(newValue, oldValue)
-    //         // this.maxPrice = newValue;
-    //         // if (newValue < this.minPrice) {
-    //         //     this.maxPrice = oldValue; // Reset to the old value
-    //         // }
-    //     }
-    // },
     mounted() {
         this.init();
     },
@@ -102,6 +98,11 @@ export default {
             this.filters.maxPrice = this.maxPrice;
             this.filters.minPrice = this.minPrice;
             await this.getBooks();
+        },
+        resetSearch() {
+            this.filters.title = null;
+            this.filters.author = null;
+            this.getBooks();
         },
         async getBooks() {
             try {

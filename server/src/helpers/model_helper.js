@@ -61,10 +61,10 @@ module.exports = ({
                             query.where(key, 'like', `%${like}%`);
                         }
                         if (min !== undefined) {
-                            query.where(key, '<=', Number(min));
+                            query.where(key, '>=', Number(min));
                         }
                         if (max !== undefined) {
-                            query.where(key, '>=', Number(max));
+                            query.where(key, '<=', Number(max));
                         }
                     } else {
                         query.where(key, value);

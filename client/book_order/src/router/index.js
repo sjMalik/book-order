@@ -7,6 +7,7 @@ import Workspace from '@/components/Workspace.vue';
 import User from '@/models/User';
 import AdminLayout from '@/components/admin/AdminLayout.vue';
 import AddBook from '@/components/admin/AddBook.vue';
+import ListOfBook from '@/components/admin/ListOfBook.vue';
 
 const routes = [
     {
@@ -18,20 +19,26 @@ const routes = [
                 path: '',
                 component: Home,
                 meta: { requiresAuth: true }
-            }
-        ]
-
-    },
-    {
-        path: '/admin',
-        component: AdminLayout,
-        children: [
+            },
             {
-                name: 'add-books',
-                path: '',
-                component: AddBook,
-                meta: { requiresAuth: true }
-            }
+                path: 'admin',
+                component: AdminLayout,
+                children: [
+                    {
+                        name: 'add-books',
+                        path: 'addbooks',
+                        component: AddBook,
+                        meta: { requiresAuth: true }
+                    },
+                    {
+                        name: 'list-books',
+                        path: 'books',
+                        component: ListOfBook,
+                        meta: { requiresAuth: true }
+                    }
+                ]
+
+            },
         ]
 
     },

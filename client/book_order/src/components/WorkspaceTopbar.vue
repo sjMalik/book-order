@@ -1,23 +1,17 @@
 <template lang="">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
-    <div class="navbar-nav">
+    <router-link to="/" class="navbar-brand" href="javascript:void(0)">Dashboard</router-link>
+    <div class="navbar-nav" v-if="currentUser?.role === 'ADMIN'">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Home</a>
-            </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="todosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Todos
+                Manage Books
             </a>
             <div class="dropdown-menu" aria-labelledby="todosDropdown">
-                <a class="dropdown-item" href="javascript:void(0)">Create Todo</a>
-                <a class="dropdown-item" href="javascript:void(0)">Update Todo</a>
+                <router-link to="/admin/addbooks" class="dropdown-item" href="javascript:void(0)">Add Book</router-link>
+                <router-link to="/admin/books" class="dropdown-item" href="javascript:void(0)">Listing Book</router-link>
             </div>
         </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Mailbox</a>
-            </li>
         </ul>
     </div>
     <div class="navbar-text ml-auto">
