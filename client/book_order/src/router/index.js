@@ -3,12 +3,37 @@ import Home from '../components/MyHome';
 import Login from '../components/UserLogin';
 import Registration from '../components/UserRegistration';
 import EmailVerification from '../components/EmailVerification';
+import Workspace from '@/components/Workspace.vue';
+import User from '@/models/User';
+import AdminLayout from '@/components/admin/AdminLayout.vue';
+import AddBook from '@/components/admin/AddBook.vue';
 
 const routes = [
     {
-        name: 'Home',
         path: '/',
-        component: Home,
+        component: Workspace,
+        children: [
+            {
+                name: 'Home',
+                path: '',
+                component: Home,
+                meta: { requiresAuth: true }
+            }
+        ]
+
+    },
+    {
+        path: '/admin',
+        component: AdminLayout,
+        children: [
+            {
+                name: 'add-books',
+                path: '',
+                component: AddBook,
+                meta: { requiresAuth: true }
+            }
+        ]
+
     },
     {
         name: 'Registration',
@@ -30,6 +55,25 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+// Navigation guard to check authentication status
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        let user = User.from(localStorage.token);
+        console.log(user)
+        // Check if user is authenticated
+        if (!user) {
+            // If not authenticated, redirect to login page
+            next({ name: 'Login' });
+        } else {
+            // If authenticated, continue to the requested route
+            next();
+        }
+    } else {
+        // If route doesn't require authentication, continue as usual
+        next();
+    }
 });
 
 export default router;

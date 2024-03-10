@@ -41,20 +41,22 @@ const getAllBooksFilterd = async (req, res) => {
     const filters = {};
 
     if (title) {
-        filters.title = { like: title };
+        filters.title = { ...filters, like: title };
     }
 
     if (author) {
-        filters.author = { like: author };
+        filters.author = { ...filters, like: author };
     }
 
     if (minPrice) {
-        filters.price = { min: minPrice };
+        filters.price = { ...filters, min: minPrice };
     }
 
     if (maxPrice) {
-        filters.price = { min: maxPrice };
+        filters.price = { ...filters, max: maxPrice };
     }
+
+    console.log(filters)
 
     try {
         const books = await Books.getAllBooksFilterd(filters, page, limit);

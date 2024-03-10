@@ -18,16 +18,18 @@
                         Submit
                     </button>
                 </form>
-                <p class="lead mt-4">
-                    Go to Home? <a href="/">Home</a>
-                </p>
+                <div class="form-group m-b-0 m-t-10">
+                    <div class="col-sm-12 text-center">
+                        Don't have an account?
+                        <a href="javascript:void(0)" class="text-info m-l-5"><b>Sign up</b></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default {
@@ -41,16 +43,17 @@ export default {
     methods: {
         async login() {
             try {
-                await axios.post("http://localhost:7007/login", {
+                const { data } = await this.$http.post("auth/login", {
                     email: this.email,
                     password: this.password
                 });
+                this.$store.commit("LOGIN", data);
+                this.$router.push('/');
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
                     text: 'Sucessfully logged in',
                 });
-                this.$router.push('/');
             } catch (e) {
                 console.log(e)
                 Swal.fire({
