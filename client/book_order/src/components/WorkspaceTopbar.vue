@@ -34,7 +34,7 @@ export default {
     methods: {
         handleLogout() {
             this.$store.commit("LOGOUT");
-            this.$router.replace("/login");
+            this.$router.replace("/auth/login");
         },
     }
 }

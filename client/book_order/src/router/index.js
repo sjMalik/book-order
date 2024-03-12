@@ -1,13 +1,14 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import Home from '../components/MyHome';
-import Login from '../components/UserLogin';
-import Registration from '../components/UserRegistration';
-import EmailVerification from '../components/EmailVerification';
+import Login from '../components/auth/UserLogin';
+import Registration from '../components/auth/UserRegistration';
+import EmailVerification from '../components/auth/EmailVerification';
 import Workspace from '@/components/Workspace.vue';
 import User from '@/models/User';
 import AdminLayout from '@/components/admin/AdminLayout.vue';
 import AddBook from '@/components/admin/AddBook.vue';
 import ListOfBook from '@/components/admin/ListOfBook.vue';
+import AuthLayout from '@/components/auth/AuthLayout.vue';
 
 const routes = [
     {
@@ -43,20 +44,26 @@ const routes = [
 
     },
     {
-        name: 'Registration',
-        path: '/registration',
-        component: Registration,
+        path: '/auth',
+        component: AuthLayout,
+        children: [
+            {
+                name: 'Registration',
+                path: 'registration',
+                component: Registration,
+            },
+            {
+                name: 'Login',
+                path: 'login',
+                component: Login,
+            },
+            {
+                name: 'VerifyEmail',
+                path: 'verify-email',
+                component: EmailVerification,
+            }
+        ]
     },
-    {
-        name: 'Login',
-        path: '/login',
-        component: Login,
-    },
-    {
-        name: 'VerifyEmail',
-        path: '/verify-email',
-        component: EmailVerification,
-    }
 ];
 
 const router = createRouter({
