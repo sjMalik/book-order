@@ -1,8 +1,11 @@
 <template>
     <div class="row mt-5">
         <div class="col-md-10 m-auto">
+            <div class="card card-header" style="background-color: white;">
+                <h1>Online Book Order</h1>
+            </div>
             <div class="card card-body text-center">
-                <h1>Login</h1>
+                <h2>Registration</h2>
                 <form @submit.prevent="register()">
                     <div class="form-group">
                         <label for="email" class="float-left">Email</label>
@@ -35,9 +38,12 @@
                         Submit
                     </button>
                 </form>
-                <p class="lead mt-4">
-                    Go to Dashboard? <a href="/">Dashboard</a>
-                </p>
+                <div class="form-group m-b-0 m-t-10">
+                    <div class="col-sm-10 text-center">
+                        Already have an account?
+                        <router-link to="/auth/login" class="text-info m-l-5">Login</router-link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

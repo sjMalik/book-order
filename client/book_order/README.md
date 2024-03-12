@@ -1,42 +1,5 @@
-# book_order
+Theme Referrence: https://bootswatch.com/journal/
 
-## If you have vue 2 then uninstall it
+Navbar Reference: https://www.bootdey.com/snippets/view/Dropdown-animation-with-CSS
 
-```
-npm uninstall -g vue-cli
-```
-
-## Install Vue 3
-
-```
-npm i -g @vue/cli
-```
-
-## Project setup
-
-```
-vue create book_order
-npm install
-```
-
-### Compiles and hot-reloads for development
-
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Ecommerce Template: https://www.bootdey.com/snippets/view/e-commerce-product-list

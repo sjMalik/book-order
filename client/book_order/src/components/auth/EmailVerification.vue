@@ -15,7 +15,7 @@
                     </button>
                 </form>
                 <p class="mt-4">
-                    <span class="float-right">Already verified? Go to <a href="/login">Login</a></span>
+                    <span class="float-right">Already verified? Go to <a href="/auth/login">Login</a></span>
                     <span class="float-left">Didn't receive the token? <a href="javascript:void(0)">Resend</a></span>
                 </p>
             </div>
@@ -50,7 +50,7 @@ export default {
                     title: 'Success!',
                     text: 'Email Verified',
                 });
-                this.$router.push('/login');
+                this.$router.push('/auth/login');
             } catch (e) {
                 console.log(e)
                 Swal.fire({
