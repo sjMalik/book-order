@@ -37,6 +37,8 @@
     </div>
 </template>
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     name: 'AddBook',
     data() {
@@ -50,7 +52,24 @@ export default {
         }
     },
     methods: {
-        addBook() { }
+        async addBook() {
+            try {
+                await this.$http.post('/books', this.book);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Sucessfully book added',
+                });
+                this.$router.push('/admin/books')
+            } catch (e) {
+                console.error(e)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: e.response.data.message,
+                });
+            }
+        }
     }
 }
 </script>

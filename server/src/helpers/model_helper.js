@@ -64,7 +64,7 @@ module.exports = ({
                             query.where(key, '>=', min);
                         }
                         if (max !== undefined) {
-                            query.where(key, '>=', max);
+                            query.where(key, '<=', max);
                         }
                     } else {
                         query.where(key, value);

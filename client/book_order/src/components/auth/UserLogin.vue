@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default {
@@ -50,10 +49,12 @@ export default {
     methods: {
         async login() {
             try {
-                await axios.post("http://localhost:7007/auth/login", {
+                const { data } = await this.$http.post("auth/login", {
                     email: this.email,
                     password: this.password
                 });
+                // Telling the Vuex store to commit the mutation named "LOGIN" with the provoided data
+                this.$store.commit('LOGIN', data);
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
